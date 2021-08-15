@@ -1,4 +1,9 @@
 .idea/
+
+App/Algorithm/.idea
+App/Algorithm/.idea
+
+
 # Miscellaneous
 App/rummy_solver/*.class
 App/rummy_solver/*.log
