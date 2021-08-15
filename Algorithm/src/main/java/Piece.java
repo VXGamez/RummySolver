@@ -1,6 +1,9 @@
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Piece {
 
     private Integer number;
@@ -34,9 +37,13 @@ public class Piece {
 
     @Override
     public String toString() {
-        return "Piece{" +
-                "number=" + number +
-                ", color='" + color + '\'' +
-                '}';
+        String num = " " + number;
+        if(number.toString().length()==1){
+            num+=" ";
+        }
+        if(number == 14){
+            num = "ʘ‿ʘ";
+        }
+        return ".___.\n|" + Menu.colors.get(color) + num + Menu.ANSI_RESET + "|\n|___|";
     }
 }
