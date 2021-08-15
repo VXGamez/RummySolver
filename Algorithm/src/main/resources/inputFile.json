@@ -1,0 +1,35 @@
+{
+  "myPieces": [
+    {
+      "number": 8,
+      "color": "black"
+    },
+    {
+      "number": 3,
+      "color": "blue"
+    },
+    {
+      "number": 1,
+      "color": "red"
+    }
+  ],
+  "board": [
+    {
+      "groupNumber": 1,
+      "pieces": [
+        {
+          "number": 1,
+          "color": "red"
+        },
+        {
+          "number": 2,
+          "color": "red"
+        },
+        {
+          "number": 3,
+          "color": "red"
+        }
+      ]
+    }
+  ]
+}
