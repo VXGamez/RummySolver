@@ -1,1 +1,47 @@
 .idea/
+# Miscellaneous
+App/rummy_solver/*.class
+App/rummy_solver/*.log
+App/rummy_solver/*.pyc
+App/rummy_solver/*.swp
+App/rummy_solver/.DS_Store
+App/rummy_solver/.atom/
+App/rummy_solver/.buildlog/
+App/rummy_solver/.history
+App/rummy_solver/.svn/
+
+# IntelliJ related
+App/rummy_solver/*.iml
+App/rummy_solver/*.ipr
+App/rummy_solver/*.iws
+App/rummy_solver/.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+App/rummy_solver/**/doc/api/
+App/rummy_solver/**/ios/Flutter/.last_build_id
+App/rummy_solver/.dart_tool/
+App/rummy_solver/.flutter-plugins
+App/rummy_solver/.flutter-plugins-dependencies
+App/rummy_solver/.packages
+App/rummy_solver/.pub-cache/
+App/rummy_solver/.pub/
+App/rummy_solver/build/
+
+# Web related
+App/rummy_solver/lib/generated_plugin_registrant.dart
+
+# Symbolication related
+App/rummy_solver/app.*.symbols
+
+# Obfuscation related
+App/rummy_solver/app.*.map.json
+
+# Android Studio will place build artifacts here
+App/rummy_solver/android/app/debug
+App/rummy_solver/android/app/profile
+App/rummy_solver/android/app/release
