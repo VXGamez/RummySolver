@@ -15,7 +15,7 @@
   ],
   "board": [
     {
-      "groupNumber": 1,
+      "isSame": false,
       "pieces": [
         {
           "number": 1,
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "groupNumber": 2,
+      "isSame": true,
       "pieces": [
         {
           "number": 1,
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "groupNumber": 3,
+      "isSame": false,
       "pieces": [
         {
           "number": 8,

@@ -4,24 +4,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class PieceGroup {
 
-    private Integer groupNumber;
     private ArrayList<Piece> pieces = null;
+    private boolean isSame;
 
-    public Integer getGroupNumber() {
-        return groupNumber;
-    }
-
-    public void setGroupNumber(Integer groupNumber) {
-        this.groupNumber = groupNumber;
-    }
-
-    public PieceGroup withGroupNumber(Integer groupNumber) {
-        this.groupNumber = groupNumber;
-        return this;
+    public PieceGroup(ArrayList<Piece> pieces, boolean isSame) {
+        this.pieces = pieces;
+        this.isSame = isSame;
     }
 
     public ArrayList<Piece> getPieces() {
         return pieces;
+    }
+
+    public boolean isSame() {
+        return isSame;
+    }
+
+    public void setSame(boolean same) {
+        isSame = same;
     }
 
     public void setPieces(ArrayList<Piece> pieces) {
@@ -36,7 +36,6 @@ public class PieceGroup {
     @Override
     public String toString() {
         return "PieceGroup{" +
-                "groupNumber=" + groupNumber +
                 ", pieces=" + pieces +
                 '}';
     }
