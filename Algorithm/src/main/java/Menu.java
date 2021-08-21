@@ -89,30 +89,46 @@ public class Menu {
         System.out.print(ANSI_PURPLE + "Selected Option: " + ANSI_RESET);
     }
 
+    public static void switchPeca(Piece p, int i){
+        switch(i){
+            case 0:
+                System.out.print(".___.   ");
+                break;
+            case 1:
+                String num = " " + p.getNumber();
+                if(p.getNumber().toString().length()==1){
+                    num+=" ";
+                }
+                if(p.getNumber() == 14){
+                    num = "ʘ‿ʘ";
+                }
+                System.out.print("|" + colors.get(p.getColor()) + num + ANSI_RESET + "|   ");
+                break;
+            case 2:
+                System.out.print("|___|   ");
+                break;
+        }
+    }
+
     public static void printHorizontalDeck(ArrayList<Piece> pieces){
         for(int i=0; i<3 ;i++){
             for(Piece p : pieces) {
-                switch(i){
-                    case 0:
-                        System.out.print(".___.   ");
-                        break;
-                    case 1:
-                        String num = " " + p.getNumber();
-                        if(p.getNumber().toString().length()==1){
-                            num+=" ";
-                        }
-                        if(p.getNumber() == 14){
-                            num = "ʘ‿ʘ";
-                        }
-                        System.out.print("|" + colors.get(p.getColor()) + num + ANSI_RESET + "|   ");
-                        break;
-                    case 2:
-                        System.out.print("|___|   ");
-                        break;
-                }
+                switchPeca(p, i);
             }
             System.out.println();
         }
+    }
+
+    public static void printHorizontalDeck(Piece pieces[]){
+
+            for (int i = 0; i < 3; i++) {
+                for (Piece p : pieces) {
+                    if(p!=null) {
+                        switchPeca(p, i);
+                    }
+                }
+                System.out.println();
+            }
     }
 
 }

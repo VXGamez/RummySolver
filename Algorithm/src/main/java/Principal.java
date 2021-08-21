@@ -58,13 +58,13 @@ public class Principal {
                             //GET NEXT MOVE
 
                             ArrayList<PieceGroup> solucions = Functions.getAllDeckCombos(data.getMyPieces());
-                            biggest = Functions.findBiggestGroup(solucions);
+                            /*biggest = Functions.findBiggestGroup(solucions);
                             Menu.printSeparator(biggest);
                             for(PieceGroup pg : solucions){
                                 Menu.printHorizontalDeck(pg.getPieces());
                                 System.out.println();
                             }
-                            Menu.printSeparator(biggest);
+                            Menu.printSeparator(biggest);*/
 
 
                             /*
@@ -72,7 +72,7 @@ public class Principal {
 
                             FASE1
 
-                            1- Detectar les que es poden fer amb el propi deck
+                      DONE  1- Detectar les que es poden fer amb el propi deck
                             2- Controlar la norma inicial de que ha de sumar >=30
                             3- Si no es pot fer res, agafar una fitxa més
 

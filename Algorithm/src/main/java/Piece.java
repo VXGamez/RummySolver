@@ -36,6 +36,17 @@ public class Piece {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Piece){
+            Piece element = (Piece) obj;
+            if(this.number.equals(element.number) && this.color.equals(element.color)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         String num = " " + number;
         if(number.toString().length()==1){
