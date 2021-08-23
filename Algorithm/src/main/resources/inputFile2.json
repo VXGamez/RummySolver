@@ -1,0 +1,143 @@
+{
+  "myPieces": [
+    {
+      "id": 35,
+      "number": 7,
+      "color": "red"
+    },
+    {
+      "id": 44,
+      "number": 4,
+      "color": "red"
+    },
+    {
+      "id": 62,
+      "number": 8,
+      "color": "yellow"
+    },
+    {
+      "id": 89,
+      "number": 9,
+      "color": "black"
+    },
+    {
+      "id": 8,
+      "number": 6,
+      "color": "blue"
+    },
+    {
+      "id": 57,
+      "number": 3,
+      "color": "yellow"
+    },
+    {
+      "id": 37,
+      "number": 9,
+      "color": "red"
+    },
+    {
+      "id": 11,
+      "number": 9,
+      "color": "blue"
+    },
+    {
+      "id": 18,
+      "number": 3,
+      "color": "blue"
+    },
+    {
+      "id": 32,
+      "number": 4,
+      "color": "red"
+    },
+    {
+      "id": 56,
+      "number": 2,
+      "color": "yellow"
+    },
+    {
+      "id": 92,
+      "number": 12,
+      "color": "yellow"
+    },
+    {
+      "id": 94,
+      "number": 1,
+      "color": "yellow"
+    },
+    {
+      "id": 58,
+      "number": 4,
+      "color": "yellow"
+    }
+  ],
+  "board": [
+    {
+      "pieces": [
+        {
+          "id": 42,
+          "number": 1,
+          "color": "red"
+        },
+        {
+          "id": 43,
+          "number": 2,
+          "color": "red"
+        },
+        {
+          "id": 44,
+          "number": 3,
+          "color": "red"
+        }
+      ]
+    },
+    {
+      "pieces": [
+        {
+          "id": 42,
+          "number": 1,
+          "color": "red"
+        },
+        {
+          "id": 3,
+          "number": 1,
+          "color": "blue"
+        },
+        {
+          "id": 81,
+          "number": 1,
+          "color": "black"
+        }
+      ]
+    },
+    {
+      "pieces": [
+        {
+          "id": 75,
+          "number": 8,
+          "color": "yellow"
+        },
+        {
+          "id": 76,
+          "number": 9,
+          "color": "yellow"
+        },
+        {
+          "id": 77,
+          "number": 10,
+          "color": "yellow"
+        },
+        {
+          "id": 78,
+          "number": 11,
+          "color": "yellow"
+        },
+        {
+          "id": 79,
+          "number": 12,
+          "color": "yellow"
+        }
+      ]
+    }
+  ]
+}

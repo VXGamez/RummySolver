@@ -2,21 +2,22 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Functions {
 
     public static ArrayList<Piece> allAvailable;
-
+    private static ArrayList<Piece> piezas;
     public static boolean hasQuarentine = true;
+    private static ArrayList<ArrayList<Piece>> allCombos;
+    private static HashMap<Integer, ArrayList<ArrayList<Piece>>> resultats;
+    private static int id;
 
     public static boolean readJson(){
         try {
@@ -40,13 +41,55 @@ public class Functions {
         return current;
     }
 
+    public static ArrayList<PieceGroup> getAllDeckCombos(ArrayList<Piece> peces){
+        long start = System.currentTimeMillis();
+        allCombos = new ArrayList<>();
+        resultats = new HashMap<>();
+        piezas = peces;
+        id = 0;
+        ArrayList<Piece> data = new ArrayList<>();
+        //peces.sort(myComparator);
+        System.out.println("\n");
+        System.out.println("Deck Before");
+        Menu.printSeparator(piezas.size());
+        Menu.printHorizontalDeck(piezas);
+        Menu.printSeparator(piezas.size());
 
+        getPieceGroups(peces, data, peces.size(), -1);
+        /*checkQuarentine();
+        if(hasQuarentine){
+            Menu.printError("Deck is not valid. Pieces have to sum >=30");
+        }*/
+        System.out.println("Deck After");
+        Menu.printSeparator(piezas.size());
+        Menu.printHorizontalDeck(piezas);
+        Menu.printSeparator(piezas.size());
+
+        long time = System.currentTimeMillis() - start;
+
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
+        long nanos = TimeUnit.MILLISECONDS.toNanos(time);
+
+        System.out.println();
+        Menu.printSuccess("Ha trigat: " + minutes + "min " + seconds + "s " + time + "ms " + nanos + "ns ");
+        System.out.println();
+
+        return new ArrayList<>();
+    }
 
     public static int findBiggestGroup(ArrayList<PieceGroup> pg){
         int biggest = 0;
+        if(pg == null){
+            return 0;
+        }
         for(PieceGroup pp : pg){
-            if(pp.getPieces().size() > biggest){
-                biggest = pp.getPieces().size();
+            if(pp != null){
+                if(pp.getPieces().size() > biggest){
+                    biggest = pp.getPieces().size();
+                }
+            }else{
+                return biggest;
             }
         }
         return biggest;
@@ -59,8 +102,8 @@ public class Functions {
         return p;
     }
 
-    public static boolean areSameColor(Piece[] p){
-        String color = p[0].getColor();
+    public static boolean areSameColor(ArrayList<Piece> p){
+        String color = p.get(0).getColor();
         for(Piece k : p){
             if(k!=null){
                 if(!k.getColor().equals(color)){
@@ -71,7 +114,7 @@ public class Functions {
         return true;
     }
 
-    public static boolean xorColors(Piece[] p){
+    public static boolean xorColors(ArrayList<Piece> p){
         ArrayList<String> colors = new ArrayList<>();
         for(Piece k : p){
             if(k!=null){
@@ -85,22 +128,15 @@ public class Functions {
         return true;
     }
 
-    public static Comparator<Piece> myComparator = new Comparator<Piece>() {
-        @Override
-        public int compare(Piece o1, Piece o2) {
-            return o1.getNumber().compareTo(o2.getNumber());
-        }
-    };
-
-    public static boolean areStraight(Piece[] p){
+    public static boolean areStraight(ArrayList<Piece> p){
         ArrayList<Piece> done = new ArrayList<>();
-        for(int i=0; i<p.length-1 ;i++){
-            if(p[i]!=null && p[i+1]!=null){
-                if(Math.abs(p[i].getNumber()-p[i+1].getNumber()) != 1 || done.contains(p[i]) ){
+        for(int i=0; i<p.size()-1 ;i++){
+            if(p.get(i)!=null && p.get(i+1)!=null){
+                if(Math.abs(p.get(i).getNumber()-p.get(i+1).getNumber()) != 1 || done.contains(p.get(i)) ){
                     done.clear();
                     return false;
                 }else{
-                    done.add(p[i]);
+                    done.add(p.get(i));
                 }
             }
         }
@@ -108,9 +144,9 @@ public class Functions {
         return true;
     }
 
-    public static boolean checkIfSame(Piece[] pg){
+    public static boolean checkIfSame(ArrayList<Piece> pg){
 
-        int num = pg[0].getNumber();
+        int num = pg.get(0).getNumber();
         for(Piece k : pg){
             if(k!=null && k.getNumber() != num){
                 return false;
@@ -119,21 +155,22 @@ public class Functions {
         return true;
     }
 
-    public static <T> int getLength(T[] arr){
-        int count = 0;
-        for(T el : arr)
-            if (el != null)
-                ++count;
-        return count;
+    public static boolean wasValid(ArrayList<Piece> pg, boolean isSearching){
+        if(pg.size()>2){
+            pg.remove(pg.size()-1);
+            return isValidGrup(pg, isSearching);
+        }else{
+            return false;
+        }
     }
 
-    public static boolean isValidGrup(Piece[] pg, boolean isSearching){
+    public static boolean isValidGrup(ArrayList<Piece> pg, boolean isSearching){
 
-        if(pg[0]==null){
+        if(pg.isEmpty()){
             return false;
         }
         if(checkIfSame(pg) && xorColors(pg)){
-            if(!isSearching && getLength(pg)>=3){
+            if(!isSearching && pg.size()>=3){
                 return true;
             }else if(isSearching){
                 return true;
@@ -141,7 +178,7 @@ public class Functions {
         }
 
         if(!checkIfSame(pg) && areSameColor(pg) && areStraight(pg)){
-            if(!isSearching && getLength(pg)>=3){
+            if(!isSearching && pg.size()>=3){
                 return true;
             }else return isSearching;
         }
@@ -149,38 +186,17 @@ public class Functions {
         return false;
     }
 
-
-    public static ArrayList<PieceGroup> getAllDeckCombos(ArrayList<Piece> peces){
-        allCombos = new ArrayList<>();
-        Piece data[] = new Piece[peces.size()];
-        Piece clone[] = new Piece[peces.size()];
-        //peces.sort(myComparator);
-
-        System.out.println("Deck Before");
-        Menu.printSeparator(peces.size());
-        Menu.printHorizontalDeck(peces);
-        Menu.printSeparator(peces.size());
-
-        getPieceGroups(peces, data, clone, 0, 0, peces.size());
-        checkQuarentine();
-        if(hasQuarentine){
-            Menu.printError("Deck is not valid. Pieces have to sum >=30");
-        }
-        System.out.println("Deck After");
-        Menu.printSeparator(peces.size());
-        Menu.printHorizontalDeck(peces);
-        Menu.printSeparator(peces.size());
-        return null;
-    }
-
-    public static ArrayList<Piece> hasNumber(ArrayList<Piece> peces, int number){
-        ArrayList<Piece> pzs = new ArrayList<>();
+    public static boolean hasNumber(ArrayList<Piece> peces, int id){
         for(Piece p : peces){
-            if(p.getNumber() == number){
-                pzs.add(p);
+            if(p!=null){
+                if(p.getId() == id){
+                    return true;
+                }
+            }else{
+                return false;
             }
         }
-        return pzs;
+        return false;
     }
 
     public static void checkQuarentine(){
@@ -195,79 +211,43 @@ public class Functions {
         }
     }
 
-    private static ArrayList<ArrayList<Piece>> allCombos;
+    public static void getPieceGroups(ArrayList<Piece> peces, ArrayList<Piece> arr, int end, int groupId){
 
-    public static boolean notFoundYet(Piece[] arr){
-        ArrayList<Piece> p = new ArrayList<Piece>(Arrays.asList(arr));
-        p.removeAll(Collections.singletonList(null));
-        for(ArrayList<Piece> kk : allCombos){
-            if(kk.equals(p)){
-                return false;
+       if(!isValidGrup(arr, false) && wasValid(arr, false)){
+            arr.remove(arr.size()-1);
+            Menu.printSeparator(arr.size());
+            Menu.printHorizontalDeck(arr);
+            Menu.printSeparator(arr.size());
+            if(groupId == -1){
+                ArrayList<ArrayList<Piece>> kk = new ArrayList<>();
+                kk.add(arr);
+                resultats.put(id, kk);
+                groupId = id;
+                id++;
+            }else{
+                peces.removeAll(arr);
+                piezas.removeAll(arr);
+                resultats.get(groupId).add(arr);
             }
-        }
-        return true;
-    }
-
-    public static void getPieceGroups(ArrayList<Piece> peces, Piece[] arr, Piece[] clone, int index,int start, int end){
-
-        if(start > peces.size()-1 || index > peces.size()-1){
-            if(isValidGrup(arr, false) && notFoundYet(arr)){
-                Menu.printSeparator(arr.length);
-                Menu.printHorizontalDeck(arr);
-                Menu.printSeparator(arr.length);
-                peces.removeAll(Arrays.asList(arr));
-                ArrayList<Piece> pp = new ArrayList<Piece>(Arrays.asList(arr));
-                pp.removeAll(Collections.singletonList(null));
-                allCombos.addAll(Collections.singleton(pp));
-                arr = new Piece[peces.size()];
-                clone = new Piece[peces.size()];
-                getPieceGroups(peces, arr, clone,  0, 0, peces.size());
-            }
+            allCombos.addAll(Collections.singleton(arr));
+            arr.clear();
+            getPieceGroups(peces, arr, peces.size(), groupId);
             return;
         }
 
-        for (int k=start; k<end; k++){
-            clone[index] = peces.get(k);
-            if(isValidGrup(clone, true)){
-                arr[index] = peces.get(k);
-                ArrayList<Piece> newP = (ArrayList<Piece>)peces.clone();
-                newP.removeAll(new ArrayList<>(Arrays.asList(arr)));
-                getPieceGroups(newP, arr, clone,  index+1, 0, newP.size());
+
+        for (int k=0; k<end; k++){
+            if(!hasNumber(arr, peces.get(k).getId())){
+                Piece tmp = peces.get(k);
+                arr.add(tmp);
+                if(isValidGrup(arr, true) || k == end-1){
+                    getPieceGroups(peces, arr, peces.size(), groupId);
+                }
+                arr.remove(tmp);
             }
+
         }
-
-        //getPieceGroups(peces, arr, clone, index,  i+1);
-
-
-
-
     }
-
-    /*
-    ---------------------- PSEUDO ----------------------
-    //runs == vector de tamany k initialized for each suit to a multi-set of size m with precisely m zeros.
-    maxScore(1, runs);
-
-    func maxScore(value, runs){
-        //n == 13
-        if(value>n){
-            return 0;
-        }
-        //Score == Vector de n × k × f(m) that contains the maximum score that can be obtained given this state of the puzzle.
-        if(score[value][runs] > -inf ){
-            return score[value][runs]
-        }
-
-        for(runs', runscores in makeRuns(runs)){
-            groupScores = totalGroupSize(hand/runs')*value;
-            result = groupScores + runScores + maxScore(value+1, runs');
-            score[value][runs] = max(result, score[value][runs]);
-        }
-
-        return score[value][runs]
-    }
-
-    */
 
 
 }

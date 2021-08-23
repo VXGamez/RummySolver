@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Piece {
 
+    private int id;
     private Integer number;
     private String color;
 
@@ -44,6 +45,14 @@ public class Piece {
             }
         }
         return false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
