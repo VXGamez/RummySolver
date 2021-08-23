@@ -15,8 +15,8 @@ public class Functions {
     public static ArrayList<Piece> allAvailable;
     private static ArrayList<Piece> piezas;
     public static boolean hasQuarentine = true;
-    private static ArrayList<ArrayList<Piece>> allCombos;
-    private static HashMap<Integer, ArrayList<ArrayList<Piece>>> resultats;
+    private static ArrayList<ArrayList<Piece>> allCombos = new ArrayList<>();
+    private static HashMap<Integer, ArrayList<ArrayList<Piece>>> resultats = new HashMap<>();
     private static int id;
 
     public static boolean readJson(){
@@ -48,14 +48,13 @@ public class Functions {
         piezas = peces;
         id = 0;
         ArrayList<Piece> data = new ArrayList<>();
-        //peces.sort(myComparator);
         System.out.println("\n");
         System.out.println("Deck Before");
         Menu.printSeparator(piezas.size());
         Menu.printHorizontalDeck(piezas);
         Menu.printSeparator(piezas.size());
 
-        getPieceGroups(peces, data, peces.size(), -1);
+        getPieceGroups(piezas, data, piezas.size(), -1, 0);
         /*checkQuarentine();
         if(hasQuarentine){
             Menu.printError("Deck is not valid. Pieces have to sum >=30");
@@ -155,10 +154,15 @@ public class Functions {
         return true;
     }
 
-    public static boolean wasValid(ArrayList<Piece> pg, boolean isSearching){
+    public static boolean wasValid(ArrayList<Piece> pg){
         if(pg.size()>2){
-            pg.remove(pg.size()-1);
-            return isValidGrup(pg, isSearching);
+            boolean current = isValidGrup(pg, false);
+            if(!current){
+                pg.remove(pg.size()-1);
+                return isValidGrup(pg, false);
+            }else{
+                return current;
+            }
         }else{
             return false;
         }
@@ -211,41 +215,44 @@ public class Functions {
         }
     }
 
-    public static void getPieceGroups(ArrayList<Piece> peces, ArrayList<Piece> arr, int end, int groupId){
+    public static void getPieceGroups(ArrayList<Piece> peces, ArrayList<Piece> arr, int end, int groupId, int index){
 
-       if(!isValidGrup(arr, false) && wasValid(arr, false)){
-            arr.remove(arr.size()-1);
+       if( (!isValidGrup(arr, false) || index==end-1 ) && wasValid(arr)){
             Menu.printSeparator(arr.size());
             Menu.printHorizontalDeck(arr);
             Menu.printSeparator(arr.size());
+            ArrayList<Piece> clone = (ArrayList<Piece>) arr.clone();
             if(groupId == -1){
                 ArrayList<ArrayList<Piece>> kk = new ArrayList<>();
-                kk.add(arr);
-                resultats.put(id, kk);
+                kk.add(clone);
                 groupId = id;
+                resultats.put(groupId, kk);
                 id++;
             }else{
-                peces.removeAll(arr);
-                piezas.removeAll(arr);
-                resultats.get(groupId).add(arr);
+                //piezas.removeAll(arr);
+                resultats.get(groupId).add(clone);
             }
-            allCombos.addAll(Collections.singleton(arr));
-            arr.clear();
-            getPieceGroups(peces, arr, peces.size(), groupId);
+
+            ArrayList<Piece> newPeces = (ArrayList<Piece>) peces.clone();
+            newPeces.removeAll(clone);
+            allCombos.addAll(Collections.singleton(clone));
+            arr = new ArrayList<>();
+            getPieceGroups(newPeces, arr, newPeces.size(), groupId, 0);
             return;
         }
 
 
         for (int k=0; k<end; k++){
-            if(!hasNumber(arr, peces.get(k).getId())){
-                Piece tmp = peces.get(k);
-                arr.add(tmp);
-                if(isValidGrup(arr, true) || k == end-1){
-                    getPieceGroups(peces, arr, peces.size(), groupId);
+            if(k<peces.size()){
+                if(!arr.contains(peces.get(k))){
+                    Piece tmp = peces.get(k);
+                    arr.add(tmp);
+                    if(isValidGrup(arr, true) || k == end-2){
+                        getPieceGroups(peces, arr, peces.size(), groupId, k);
+                    }
+                    arr.remove(tmp);
                 }
-                arr.remove(tmp);
             }
-
         }
     }
 

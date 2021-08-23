@@ -40,7 +40,7 @@ public class Piece {
     public boolean equals(Object obj) {
         if(obj instanceof Piece){
             Piece element = (Piece) obj;
-            if(this.number.equals(element.number) && this.color.equals(element.color)){
+            if(this.id == element.id && this.number.equals(element.number) && this.color.equals(element.color)){
                 return true;
             }
         }
