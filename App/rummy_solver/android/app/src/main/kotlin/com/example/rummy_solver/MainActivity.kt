@@ -1,4 +1,4 @@
-package com.example.rummy_solver
+package projectk.vxg.rummy_solver
 
 import io.flutter.embedding.android.FlutterActivity
 
